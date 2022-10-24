@@ -1,0 +1,146 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('icomoon8200.eot?koswr1');
+  src:  url('icomoon8200.eot?koswr1#iefix') format('embedded-opentype'),
+  url('icomoon8200.ttf?koswr1') format('truetype'),
+  url('icomoon8200.woff?koswr1') format('woff'),
+  url('icomoon8200.svg?koswr1#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="ico icon-"], [class*=" ico icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-comment-bubble:before {
+  content: "\e926";
+}
+.icon-heart:before {
+  content: "\e927";
+}
+.icon-left-arrow:before {
+  content: "\e924";
+}
+.icon-right-arrow:before {
+  content: "\e925";
+}
+.icon-email:before {
+  content: "\e919";
+}
+.icon-location:before {
+  content: "\e91a";
+}
+.icon-hours:before {
+  content: "\e917";
+}
+.icon-clock1:before {
+  content: "\e918";
+}
+.icon-play-button:before {
+  content: "\e916";
+}
+.icon-truck:before {
+  content: "\e900";
+}
+.icon-team:before {
+  content: "\e901";
+}
+.icon-steering-wheel:before {
+  content: "\e902";
+}
+.icon-sport-car:before {
+  content: "\e903";
+}
+.icon-shield:before {
+  content: "\e904";
+}
+.icon-scooter:before {
+  content: "\e905";
+}
+.icon-professor:before {
+  content: "\e906";
+}
+.icon-planning:before {
+  content: "\e907";
+}
+.icon-negotiation:before {
+  content: "\e908";
+}
+.icon-motorcycle:before {
+  content: "\e909";
+}
+.icon-mortarboard:before {
+  content: "\e90a";
+}
+.icon-medal:before {
+  content: "\e90b";
+}
+.icon-lock:before {
+  content: "\e90c";
+}
+.icon-left-quote1:before {
+  content: "\e90d";
+}
+.icon-helping:before {
+  content: "\e90e";
+}
+.icon-event:before {
+  content: "\e90f";
+}
+.icon-delivery-truck:before {
+  content: "\e910";
+}
+.icon-credit-card:before {
+  content: "\e911";
+}
+.icon-car-star:before {
+  content: "\e912";
+}
+.icon-car:before {
+  content: "\e913";
+}
+.icon-bus:before {
+  content: "\e914";
+}
+.icon-appointment:before {
+  content: "\e915";
+}
+.icon-verified:before {
+  content: "\e923";
+}
+.icon-comments:before {
+  content: "\e91b";
+}
+.icon-circle:before {
+  content: "\e91c";
+}
+.icon-clock:before {
+  content: "\e91d";
+}
+.icon-facebook-placeholder-for-locate-places-on-maps:before {
+  content: "\e91e";
+}
+.icon-icon:before {
+  content: "\e91f";
+}
+.icon-left-quote:before {
+  content: "\e920";
+}
+.icon-phone-receiver:before {
+  content: "\e921";
+}
+.icon-profile:before {
+  content: "\e922";
+}

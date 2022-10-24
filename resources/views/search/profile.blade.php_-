@@ -1,0 +1,450 @@
+@extends('layouts.app_guest')
+@section('content')
+
+    <link href="{{ asset('assets/libs/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ url('assets/js/calendar/packages/core/main.css') }}" rel='stylesheet' />
+    <link href="{{ url('assets/js/calendar/packages/daygrid/main.css') }}" rel='stylesheet' />
+
+    <link href='{{ url('assets/js/calendar/packages/core/main.css') }}' rel='stylesheet' />
+    <link href='{{ url('assets/js/calendar/packages/daygrid/main.css') }}' rel='stylesheet' />
+    <link href='{{ url('assets/js/calendar/packages/timegrid/main.css') }}' rel='stylesheet' />
+    <link href='{{ url('assets/js/calendar/packages/list/main.css') }}' rel='stylesheet' />
+
+    <style>
+        .page_slider{position: relative}
+        #search_modal .btn{
+            font-size: 15px;
+            padding: 10px;
+            margin-right: 5px;
+        }
+        #search_modal .close{ top: 0px; right: 15px }
+        #learner-price-table {
+            -webkit-box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            -moz-box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            -ms-box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            border-radius: 10px;
+            border: 2px solid #212A37;
+            background: white;
+            margin: 20px 0;
+            padding: 0 3px;
+        }
+        .container-cr{
+            max-width: 62.5rem;
+            margin-right: auto;
+            margin-left: auto;
+            padding: 25px 5px;
+        }
+        .more_inst .container-cr{
+            height: 250px;
+        }
+
+        .more_inst{
+            background: orange;
+        }
+        .container-cr .teaser{
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .container-cr .teaser:hover{
+            background-color: white !important;
+        }
+        .rounded-img{
+            background: white;
+            border: 3px solid white;
+            -webkit-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+            -moz-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+            -ms-box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        .teaser-box-section .title{
+            color: orange !important;
+        }
+        .h190{
+            height: 190px;
+        }
+
+        .fc-bbg{
+            display: inline-block;
+            border: 1px solid #8a8a8a;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+        }
+        .fc-bbg.red{
+            background: #8a8a8a;
+        }
+
+    </style>
+
+    <section class="" style="height: 130px">
+    <div class="container"></div>
+    </section>
+
+    <section class="more_inst">
+        <div class="container-cr">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="owl-carousel owl-theme">
+                        <div class="item mt-4">
+                            <p  class="text-center"><strong>Other<br>Instructors</strong></p>
+                        </div>
+                        @foreach($users as $user)
+                            <div class="item">
+                                <a href="{{ url('search/'.$search_id.'/instructors/profile/'.$user->id) }}">
+                                @if( $user->avatar == '')
+                                    <img src="{{ url('assets/images/users/default.png') }}" alt="user" class="rounded-img" style="height: 100px; width: 100px">
+                                @else
+                                    <img src="{{ url('assets/images/users/'.$user->avatar) }}" alt="user" class="rounded-img" style="height: 100px; width: 100px">
+                                @endif
+                                    <div class="text-center"><small>{{ $user->name }}</small></div>
+                                </a>
+                            </div>
+
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="ls teaser-box-section container-cr">
+        <div class="row c-gutter-8">
+            <div class="col-sm-7">
+                <div class="py-45 box-shadow mb-20 teaser">
+                   <div class="col-md-12">
+                       <div class="row">
+                           <div class="col-md-5 pl-3 text-center">
+                               @if( $instructor->avatar == '')
+                                   <img src="{{ url('assets/images/users/default.png') }}" alt="user" class="rounded-img h190">
+                               @else
+                                   <img src="{{ url('assets/images/users/'.$instructor->avatar) }}" alt="user" class="rounded-img h190">
+                               @endif
+
+                           </div>
+
+                           <div class="col-md-7 p-3">
+                               <h5 class="title pull-left">{{ $instructor->name }} <small><i class="fa fa-mars text-light-blue"></i></small></h5>
+                               @if($instructor->user_meta->transmission_type == "manual")
+                               <span class="badge badge-warning pull-right"> Manual Transmission </span>
+                               @else
+                                   <span class="badge badge-warning pull-right"> Auto Transmission </span>
+                               @endif
+                               <div class="clearfix"></div>
+                               <div>
+                                   <div onclick="show_inf('intl_conv')" class="text-info pointer mb-1"><i class="fa fa-globe fa-fw fa-lg"></i> Intl conversions</div>
+                                   <div onclick="show_inf('your_car')" class="text-info pointer mb-1"><i class="fa fa-car fa-fw fa-lg"></i> Your car or mine</div>
+                                   <div onclick="show_inf('logbook')" class="text-info pointer mb-1"><i class="fa fa-list-alt fa-fw fa-lg"></i> Logbook 1hr=3hrs</div>
+                                   <div onclick="show_inf('driving_test')" class="text-info pointer mb-1"><i class="fa fa-drivers-license fa-fw fa-lg"></i> Test package</div>
+                               </div>
+                           </div>
+                           <div class="col-md-12 mt-1 pl-3">
+                               <?php
+                               $language = json_decode( $instructor->user_meta->language );
+                               ?>
+                               <ul class="list-unstyled">
+                                   @if($instructor->user_meta->wwcc_status == 1)
+                                       <li>
+                                           <i class="fa fa-check fa-fw fa-lg"></i>
+                                           Verified Working with Children Check
+                                       </li>
+                                   @endif
+                                   <li class="small-margin-top-10">
+                                       <i class="fa fa-drivers-license fa-fw fa-lg"></i>
+                                       Driving Instructor's Licence
+                                   </li>
+                                   <li class="small-margin-top-10">
+                                       <i class="fa fa-asterisk fa-fw fa-lg"></i> Instructed for
+                                       {{ $instructor->user_meta->years_for_instructing }} years
+                                   </li>
+                                   <li class="small-margin-top-10">
+                                       <i class="fa fa-language fa-fw fa-lg"></i> Spoken language(s)
+                                       @foreach($language as $lng)
+                                           <span class="badge badge-secondary">{{ $lng }}</span>
+                                       @endforeach
+                                   </li>
+                               </ul>
+
+                           </div>
+                       </div>
+                   </div>
+            </div>
+
+                <div class="box-shadow mb-20 teaser">
+                    <div class="container-cr p-3">
+                        <h6>{{ ucfirst($instructor->name) }}'s BIO</h6>
+                        <hr class="m-2">
+                        {{ $instructor->user_meta->bio }}
+                    </div>
+                </div>
+
+                <div class="box-shadow mb-20 teaser">
+                    <div class="container-cr p-3">
+                        <h6>REVIEWS</h6>
+                        <hr class="m-2">
+                    </div>
+                </div>
+
+        </div>
+            <div class="col-sm-5">
+                <div class="p-3 box-shadow mb-20 teaser">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <a href="{{ url('book-online/'.$search_id.'/instructor/'.$instructor->id) }}" class="btn btn-block btn-warning text-uppercase">Book Online</a>
+                            <button type="button" data-id="{{$instructor->id}}" class="btn btn-block btn-success av-btn text-uppercase">Check Availability</button>
+
+                            <div class="mb-3 mt-3">
+                                <div class="media">
+                                <div class="media-left">
+                                    <div class="small-width-180px">
+                                        <strong class="badge badge-warning">5.0</strong> &nbsp;
+                                        <i class="fa fa-star text-warning fa-lg"></i> <i class="fa fa-star text-warning fa-lg"></i> <i class="fa fa-star text-warning fa-lg"></i> <i class="fa fa-star text-warning fa-lg"></i> <i class="fa fa-star text-warning fa-lg"></i>
+                                    </div>
+                                </div>
+                                <div class="media-body">
+                                    <small class="small-fontsize-14 text-gray">
+                                        7 ratings
+                                        <meta content="5.0" itemprop="ratingValue">
+                                        <meta content="0" itemprop="reviewCount">
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div>
+
+                                <div class="media media-middle">
+                                    <div class="media-left small-padding-right-10">
+                                        <svg class="oil small-margin-5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32" stroke-width="2"><g stroke-width="2" transform="translate(0, 0)"><line data-cap="butt" fill="none" stroke="#444444" stroke-width="2" stroke-miterlimit="10" x1="23.192" y1="23.192" x2="31" y2="31" stroke-linejoin="miter" stroke-linecap="butt"></line> <circle fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" cx="14" cy="14" r="13" stroke-linejoin="miter"></circle> <path data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M20,20 v-0.983c0-0.71-0.372-1.363-0.983-1.725C18.044,16.717,16.358,16,14,16c-2.388,0-4.064,0.713-5.026,1.288 C8.368,17.65,8,18.301,8,19.007V20H20z" stroke-linejoin="miter"></path> <circle data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" cx="14" cy="10" r="3" stroke-linejoin="miter"></circle></g></svg>
+                                    </div>
+                                <div class="media-body">
+                                    <h6 class="small-margin-0">Instructor choice</h6>
+                                    <p class="small-fontsize-13 small-margin-0">Choose your instructor, change online anytime.</p>
+                                </div>
+                            </div>
+                            <div class="media media-middle">
+                                <div class="media-left small-padding-right-10">
+                                    <svg class="oil small-margin-5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32" stroke-width="2"><g stroke-width="2" transform="translate(0, 0)"><polyline data-color="color-2" points="19 27 22 30 29 23" fill="none" stroke="#444444" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2" stroke-linejoin="miter"></polyline> <line x1="9" y1="1" x2="9" y2="5" fill="none" stroke="#444444" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2" stroke-linejoin="miter"></line> <line x1="23" y1="1" x2="23" y2="5" fill="none" stroke="#444444" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2" stroke-linejoin="miter"></line> <line data-cap="butt" x1="31" y1="11" x2="1" y2="11" fill="none" stroke="#444444" stroke-miterlimit="10" stroke-width="2" stroke-linecap="butt" stroke-linejoin="miter"></line> <polyline points="13 29 1 29 1 5 31 5 31 17" fill="none" stroke="#444444" stroke-linecap="square" stroke-miterlimit="10" stroke-width="2" stroke-linejoin="miter"></polyline></g></svg>
+                                </div>
+                                <div class="media-body">
+                                    <h6 class="small-margin-0">Book now or later</h6>
+                                    <p class="small-fontsize-13 small-margin-0">Buy a package, make bookings now or later.</p>
+                                </div>
+                            </div>
+                            <div class="media media-middle">
+                                <div class="media-left small-padding-right-10">
+                                    <svg class="oil small-margin-5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32" stroke-width="2"><g stroke-width="2" transform="translate(0, 0)"><path fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M14,20 c-5.57,0-9.247,1.165-11.227,2.043C1.69,22.524,1,23.598,1,24.783V30h13" stroke-linejoin="miter"></path> <path fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M7,8c0-3.866,3.134-7,7-7 s7,3.134,7,7s-3.134,8-7,8S7,11.866,7,8z" stroke-linejoin="miter"></path> <circle data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" cx="24" cy="24" r="7" stroke-linejoin="miter"></circle> <polyline data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points=" 24,21 24,24 27,24 " stroke-linejoin="miter"></polyline></g></svg>
+                                </div>
+                                <div class="media-body">
+                                    <h6 class="small-margin-0">Real-time availability</h6>
+                                    <p class="small-fontsize-13 small-margin-0">Book directly into your instructor’s calendar.</p>
+                                </div>
+                            </div>
+                            <div class="media media-middle">
+                                <div class="media-left small-padding-right-10">
+                                    <svg class="oil small-margin-5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px" height="32px" viewBox="0 0 32 32" stroke-width="2"><g stroke-width="2" transform="translate(0, 0)"><polyline data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points=" 9,1 5,1 5,5 " stroke-linejoin="miter"></polyline> <polyline data-color="color-2" fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" points=" 22,5 22,1 18,1 " stroke-linejoin="miter"></polyline> <path fill="none" stroke="#444444" stroke-width="2" stroke-linecap="square" stroke-miterlimit="10" d="M27,31l2.036-9.5 c0.509-2.377-1.202-4.655-3.626-4.828L16,16V7.5C16,6.119,14.881,5,13.5,5h0C12.119,5,11,6.119,11,7.5V24l-4.396-3.664 c-0.908-0.757-2.244-0.696-3.08,0.14l0,0c-0.856,0.856-0.896,2.23-0.092,3.135L10,31H27z" stroke-linejoin="miter"></path></g></svg>
+                                </div>
+                                <div class="media-body">
+                                    <h6 class="small-margin-0">Booking flexibility</h6>
+                                    <p class="small-fontsize-13 small-margin-0">Reschedule online FREE up to 5 hrs before a booking.</p>
+                                </div>
+                            </div>
+                            <hr class="small-margin-bottom-0">
+
+                                <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                    <i class="fa fa-info-circle fa-lg small-margin-right-5"></i>
+                                    <u>More info about bookings</u>
+                                </a>
+                                <div class="collapse" id="collapseExample">
+                                    <ol class="bg-info">
+                                        <li>At the completion of the booking process you can leave notes for your instructor about your preferences (optional).</li>
+                                        <li>
+                                            Your online account is created during the booking process:
+                                            <ul class="small-fontsize-14">
+                                                <li>Review / edit your bookings &amp; profile details</li>
+                                                <li>Book / purchase additional lessons or a test package</li>
+                                                <li>Reschedule or cancel bookings at no cost (&gt;5 hrs before start time)</li>
+                                                <li>Change your instructor or pick up address</li>
+                                            </ul>
+                                        </li>
+                                        <li>Your instructor's contact details are displayed in your online account, the instructor also receives your contact details.</li>
+                                        <li>Your chosen instructor will meet you with their dual controlled vehicle at the location/date/time selected - no need to confirm.</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @if($instructor->user_meta->vehicle_image != "")
+                <div class="p-3 box-shadow mb-20 teaser">
+                    <h6>{{ ucfirst($instructor->name) }}'s Vehicle</h6>
+                    <div class="row">
+                        <div class="col-md-4">
+
+                        </div>
+                        <div class="col-md-8 text-right">
+                            <img src="{{ asset('assets/images/vehicle_images/'.$instructor->user_meta->vehicle_image) }}" alt="" class="img-responsive">
+                            <br>
+                            <span class="label label-default p-1" data-toggle="tooltip" data-title="Car Make">{{ $instructor->user_meta->registration_number }}</span>
+                            <?php
+                            $car_make = \App\CarMake::find($instructor->user_meta->vehicle_make);
+                            $car_model = \App\CarModel::find($instructor->user_meta->vehicle_model);
+                            ?>
+                            @if(isset($car_make->title) && $car_make->title!='')
+                                <span class="label label-default p-1" data-toggle="tooltip" data-title="Car Make">
+                                    {{$car_make->title}},
+                                </span>
+                            @endif
+                            @if(isset($car_model->title) && $car_model->title!='')
+                                <span class="label label-default p-1"  data-toggle="tooltip" data-title="Car Model">
+                                    {{ $car_model->title }}
+                                </span>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+                    @endif
+            </div>
+        </div>
+    </section>
+
+    <div class="modal fade" id="availability_modal" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog mw-100 w-85" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title w-100"> Check Instructor Availability <div class="pull-right"> <div class="fc-bbg red"></div> <small>Booked out</small> <div class="fc-bbg"></div> <small>Available</small> </div>  </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+
+                </div>
+                <div class="modal-body">
+                    <div class="small-padding-0">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id='calendar'></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="instructor_id">
+@endsection
+
+@section('script')
+
+    <script src="{{ asset('assets/libs/owlcarousel/owl.carousel.js') }}"></script>
+    <script src="{{ asset('assets/js/calendar/packages/core/main.js') }}"></script>
+    <script src="{{ asset('assets/js/calendar/packages/interaction/main.js') }}"></script>
+    <script src="{{ asset('assets/js/calendar/packages/daygrid/main.js') }}"></script>
+    <script src="{{ asset('assets/js/calendar/packages/moment/moment.min.js') }}"></script>
+    <script src="{{ asset('assets/js/calendar/packages/timegrid/main.js')}}"></script>
+    <script>
+
+
+        $('.av-btn').click(function (){
+            $('#calendar').html('');
+
+            let inst_id = $(this).attr('data-id');
+            $('#availability_modal').modal('show');
+
+            jQuery.ajax({
+                url: '{{ url('load_events') }}',
+                type: 'POST',
+                data: {
+                    type: 'check_availability',
+                    id: inst_id,
+                },
+                success: function(response) {
+                    myCalendar(response);
+                }
+            });
+        });
+
+
+       function myCalendar(events_ar){
+
+          let ev = events_ar;
+
+           var today = moment().format("YYYY-MM-DD");
+               var calendarEl = document.getElementById('calendar');
+               var calendar = new FullCalendar.Calendar(calendarEl, {
+                   plugins: [ 'timeGrid' ],
+                   header: {
+                       left: 'prev,next today',
+                       center: 'title',
+                   },
+                   initialView: 'timeGridWeek',
+                   defaultDate: today,
+                   editable: false,
+                   navLinks: false, // can click day/week names to navigate views
+                   eventLimit: true, // allow "more" link when too many events
+                   events:ev,
+               });
+
+               calendar.render();
+
+       }
+
+        function show_inf(id){
+            $('.intl_conv, .your_car, .logbook, .driving_test').hide();
+            $('.'+id).show();
+            $('#info_modal').modal('show');
+        }
+
+        $(document).ready(function (){
+
+            var owl = $('.owl-carousel');
+            owl.owlCarousel({
+                margin: 10,
+                nav: true,
+                loop: false,
+                autoWidth:true,
+                items:10
+            })
+
+            $('#searchForm').submit(function (){
+
+                $('.fa-spinner').removeClass('hidden');
+                var data = new FormData(this);
+                data.append("search_type", 1);
+
+                $.ajax({
+                    url: "{{Route('search')}}",
+                    data: data,
+                    contentType: false,
+                    processData: false,
+                    type: 'POST',
+                    success: function (res) {
+
+                        if(res.success == true){
+                            $('.total_inst').html(res.total);
+                            $('.area').text(res.title);
+                            $('#load_instructors').html(res.view);
+                            $('#search_modal').modal('show');
+
+                        }else if(res.success == false){
+                            swal('oops!', res.message, 'warning');
+
+                        }
+                        $('.fa-spinner').addClass('hidden');
+                    },
+                    error: function () {
+                        $('.fa-spinner').addClass('hidden');
+                    }
+                });
+                return false;
+            });
+        })
+    </script>
+@endsection
